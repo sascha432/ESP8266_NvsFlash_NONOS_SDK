@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "missing"
+    "url": "https://github.com/sascha432/ESP8266_NvsFlash_NONOS_SDK.git"
   },
   "frameworks": [
     "arduino"
