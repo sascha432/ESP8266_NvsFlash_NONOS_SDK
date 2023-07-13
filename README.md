@@ -26,7 +26,7 @@ Encryption is not supported
 
 ## RAM usage
 
-`nvs_flash_init()` allocated quite a lot RAM. to release it, use `nvs_flash_deinit()` if NVS is not required anymore.
+`nvs_flash_init()` allocates quite a lot RAM. To release about 5KB, use `nvs_flash_deinit()` if NVS is not required anymore.
 
 ## Changelog
 
