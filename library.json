@@ -1,0 +1,27 @@
+{
+  "name": "ESP8266_NvsFlash_NONOS_SDK",
+  "description": "nvs_flash from ESP8266_RTOS_SDK for Arduino ESP8266",
+  "version": "0.0.1",
+  "authors": {
+    "name": "sascha lammers",
+    "maintainer": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "missing"
+  },
+  "frameworks": [
+    "arduino"
+  ],
+  "platforms": [
+    "espressif8266"
+  ],
+  "headers": [
+    "nvs.h",
+    "nvs_flash.h"
+  ],
+  "build": {
+    "libArchive": true,
+    "libCompatMode": "strict"
+  }
+}
