@@ -15,9 +15,9 @@
 #endif
 #endif
 
-#define ESP_PLATFORM 1
-#define DEBUG_NVS_FLASH 0
-#define NVS_PARTITIONS 1 // 1 or 2
+#define ESP_PLATFORM      1
+#define DEBUG_NVS_FLASH   0
+#define NVS_PARTITIONS    1 // 1 or 2, defined in esp_partition.cpp
 
 #include "../private/esp_err.h"
 #include "../private/esp_partition.h"

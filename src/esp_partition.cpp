@@ -12,8 +12,10 @@ custom implementation that supports 2 NVS partitions only! An NVS partition requ
 
 more information can be found here: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/nvs_flash.html
 
-NVS partition 1 will be initialized automatically (at least 3 sectors are required)
+NVS partition 1 must be initialized before use ('nvs_flash_init', at least 3 sectors are required)
 NVS partition 2 must be initialized before use (0 sectors can be used if not required)
+
+to release the RAM, use 'nvs_flash_deinit'
 
 eagle.ld example
 
@@ -55,54 +57,40 @@ static const esp_partition_t nvs_partitions[2] = {
 
 extern "C" const esp_partition_t* esp_partition_find_first(esp_partition_type_t type, esp_partition_subtype_t subtype, const char* label)
 {
-    ESP_LOGD(TAG, "type=%u subtype=%u label=%s", type, subtype, __S(label));
+    ESP_LOGD(TAG, "type=%u subtype=%u label=%s", type, subtype, label ? label : "NULL");
     if (type != ESP_PARTITION_TYPE_DATA && (subtype != ESP_PARTITION_SUBTYPE_DATA_NVS && subtype != ESP_PARTITION_SUBTYPE_ANY)) {
         return nullptr;
     }
     if (label) {
-        if (!strcmp_P(label, PSTR(NVS_PART_LABEL_1))) {
-            return &nvs_partitions[0];
-        }
-        #if NVS_PARTITIONS == 2
-            else if (!strcmp_P(label, PSTR(NVS_PART_LABEL_2))) {
-                return &nvs_partitions[1];
+        for(const auto &part: nvs_partitions) {
+            if (!strcmp(label, part.label)) {
+                return &part;
             }
-        #endif
-        else {
-            return nullptr;
         }
+        return nullptr;
     }
     return &nvs_partitions[0];
 }
 
-
 extern "C" esp_partition_iterator_t esp_partition_find(esp_partition_type_t type, esp_partition_subtype_t subtype, const char* label)
 {
-    ESP_LOGD(TAG, "type=%u subtype=%u label=%s", type, subtype, __S(label));
+    ESP_LOGD(TAG, "type=%u subtype=%u label=%s", type, subtype, label ? label : "NULL");
     if (type != ESP_PARTITION_TYPE_DATA && (subtype != ESP_PARTITION_SUBTYPE_DATA_NVS && subtype != ESP_PARTITION_SUBTYPE_ANY)) {
         return nullptr;
     }
-    esp_partition_iterator_opaque_ *iterator = nullptr;
     if (label) {
-        if (!strcmp_P(label, PSTR(NVS_PART_LABEL_1))) {
-            iterator = new esp_partition_iterator_opaque_(&nvs_partitions[0]);
-        }
-        #if NVS_PARTITIONS == 2
-            else if (!strcmp_P(label, PSTR(NVS_PART_LABEL_2))) {
-                iterator = new esp_partition_iterator_opaque_(&nvs_partitions[1]);
+        for(const auto part: nvs_partitions) {
+            if (!strcmp(label, part.label)) {
+                return new esp_partition_iterator_opaque_(&part);
             }
-        #endif
-        else {
-            return nullptr;
         }
+        return nullptr;
     }
-    else {
-        #if NVS_PARTITIONS == 2
-            iterator = new esp_partition_iterator_opaque_(&nvs_partitions[0], &nvs_partitions[1]);
-        #else
-            iterator = new esp_partition_iterator_opaque_(&nvs_partitions[0]);
-        #endif
-    }
+    #if NVS_PARTITIONS == 2
+        auto iterator = new esp_partition_iterator_opaque_(&nvs_partitions[0], &nvs_partitions[1]);
+    #else
+        auto iterator = new esp_partition_iterator_opaque_(&nvs_partitions[0]);
+    #endif
     return iterator;
 }
 
