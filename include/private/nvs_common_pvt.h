@@ -1,7 +1,11 @@
+/**
+  Author: sascha_lammers@gmx.de
+*/
+
 #pragma once
+
 #ifndef __NVS_COMMON_PVT_H_INCUDED
 #define __NVS_COMMON_PVT_H_INCUDED 1
-
 
 #ifndef IDF_DEPRECATED
 #ifdef IDF_CI_BUILD
@@ -13,6 +17,7 @@
 
 #define ESP_PLATFORM 1
 #define DEBUG_NVS_FLASH 0
+#define NVS_PARTITIONS 1 // 1 or 2
 
 #include "../private/esp_err.h"
 #include "../private/esp_partition.h"

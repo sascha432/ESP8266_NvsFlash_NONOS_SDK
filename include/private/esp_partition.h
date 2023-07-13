@@ -108,7 +108,7 @@ typedef struct {
 struct esp_partition_iterator_opaque_ {
     const esp_partition_t *partition;
     const esp_partition_t *next;
-    esp_partition_iterator_opaque_() : partition(nullptr), next(nullptr) {}
+    esp_partition_iterator_opaque_(const esp_partition_t *aPartition = nullptr, const esp_partition_t *aNext = nullptr) : partition(aPartition), next(aNext) {}
 };
 
 
