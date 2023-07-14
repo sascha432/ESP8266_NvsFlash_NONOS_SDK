@@ -30,6 +30,10 @@ Encryption is not supported
 
 ## Changelog
 
+### 0.0.3
+
+- Current master
+
 ### 0.0.2
 
 - Added example app
