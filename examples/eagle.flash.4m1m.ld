@@ -1,0 +1,34 @@
+/* Flash Layout */
+/* sketch    @0x40200000 (1019KB, 1044464) */
+/* empty     @0x402FEFF0 (2052KB, 2101264) */
+/* fs        @0x40500000 (844KB, 864256) */
+/* nvs       @0x405D3000 (32KB, 32768) */
+/* savecrash @0x405DB000 (128KB, 131072) */
+/* eeprom    @0x405FB000 (4KB, 4096) */
+/* rfcal     @0x405FC000 (4KB, 4096) */
+/* wifi      @0x405FD000 (12KB, 12288) */
+
+MEMORY
+{
+  dport0_0_seg :                        org = 0x3FF00000, len = 0x10
+  dram0_0_seg :                         org = 0x3FFE8000, len = 0x14000
+  irom0_0_seg :                         org = 0x40201010, len = 0xfeff0
+}
+
+PROVIDE ( _FS_start = 0x40500000 );
+PROVIDE ( _FS_end = 0x405D2000 );
+PROVIDE ( _FS_page = 0x100 );
+PROVIDE ( _FS_block = 0x2000 );
+PROVIDE ( _NVS_start = 0x405D3000 );
+PROVIDE ( _NVS_end = 0x405DA000 );
+PROVIDE ( _SAVECRASH_start = 0x405DB000 );
+PROVIDE ( _SAVECRASH_end = 0x405FA000 );
+PROVIDE ( _EEPROM_start = 0x405FB000 );
+PROVIDE ( _EEPROM_end = 0x405FB000 );
+/* The following symbols are DEPRECATED and will be REMOVED in a future release */
+PROVIDE ( _SPIFFS_start = 0x40500000 );
+PROVIDE ( _SPIFFS_end = 0x405D2000 );
+PROVIDE ( _SPIFFS_page = 0x100 );
+PROVIDE ( _SPIFFS_block = 0x2000 );
+
+INCLUDE "local.eagle.app.v6.common.ld"

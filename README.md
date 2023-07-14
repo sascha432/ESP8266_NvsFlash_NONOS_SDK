@@ -32,7 +32,7 @@ Encryption is not supported
 
 ### 0.0.2
 
-- New version
+- Added example app
 
 ### 0.0.1
 

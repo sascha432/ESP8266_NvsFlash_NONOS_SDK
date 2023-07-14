@@ -5,3 +5,5 @@ test_nvs_host/coverage.info
 **/*.gcda
 **/*.gcov
 **/*.o
+.pio/
+.vscode/
