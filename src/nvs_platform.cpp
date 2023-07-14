@@ -3,9 +3,12 @@
 */
 
 #include <Arduino.h>
+#include <interrupts.h>
 #include "nvs_platform.hpp"
 
 namespace nvs {
+
+    // we cannot use a semaphore, otherwise any call from an interrupt while it is locked will fail
 
     Lock::Lock()
     {

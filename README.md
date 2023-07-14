@@ -26,7 +26,7 @@ Encryption is not supported
 
 ## RAM usage
 
-`nvs_flash_init()` allocates quite a lot RAM. To release about 5KB, use `nvs_flash_deinit()` if NVS is not required anymore.
+`nvs_flash_init()` allocates quite a lot RAM. To release about 5KB, use `nvs_flash_deinit()` if NVS is not required anymore. Same for `nvs_flash_init_partition()`. Initializing the partition again requires some time depending on th size (16ms for 32KB) and blocks interrupts. If none of the NVS functions are used in interrupt, the lock can be changed to a semaphore and won't block interrupt. (TODO add option to use a semaphore)
 
 ## Changelog
 
