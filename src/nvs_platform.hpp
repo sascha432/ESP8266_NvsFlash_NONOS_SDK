@@ -42,6 +42,20 @@ namespace nvs {
         }
 
         static void uninit() { }
+
+        #if NVS_FLASH_NO_INTERRUPT_LOCK
+
+            static bool isLocked() const
+            {
+                bool state;
+                ets_intr_lock();
+                state = _locked;
+                ets_intr_unlock();
+                return state;
+            }
+
+            volatile static bool _locked;
+        #endif
     };
 
 } // namespace nvs

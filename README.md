@@ -20,19 +20,26 @@ The second partition is optional and `NVS_PARTITIONS` has to be set to 2. It nee
 
 The code is only slightly modified, but relies on a replacement of the `esp_partition_*` functions since the NONOS_SDK does not have a readable runtime partition table. The partitions are grabbed from the eagle.ld linking file
 
+## Locking and multiple threads
+
+Since the NONOS_SDK does not support multiple threads/tasks, interrupts must be disabled during all operations. If a call from an interrupt occurs, the code would lock up waiting for the unlock. This is usually not a problem unless ``init/deinit`` is frequently used. It blocks interrupts for several milliseconds depending on the size of the partition, while most other operations complete within a few dozen microseconds
+
+If the nvs functions are not called from interrupts or timers, but only in the setup()/loop() function, locking is not required. If locking is disabled and the app requires nvs functions to be called from interrupts, ``nvs::Lock::isLocked()`` can be called to check if another operation is in progress
+
 ## Encryption
 
 Encryption is not supported
 
 ## RAM usage
 
-`nvs_flash_init()` allocates quite a lot RAM. To release about 5KB, use `nvs_flash_deinit()` if NVS is not required anymore. Same for `nvs_flash_init_partition()`. Initializing the partition again requires some time depending on th size (16ms for 32KB) and blocks interrupts. If none of the NVS functions are used in interrupt, the lock can be changed to a semaphore and won't block interrupt. (TODO add option to use a semaphore)
+`nvs_flash_init()` allocates quite a lot RAM. The amount of memory required for initializing a partition varies and increases in time. To release about 1.5KB, use `nvs_flash_deinit()` if NVS is not required anymore. Same for `nvs_flash_init_partition()`. Initializing the partition again requires some time depending on th size (16-32ms for 32KB, depending on the flash speed) and blocks interrupts.
 
 ## Changelog
 
 ### 0.0.3
 
-- Current master
+- Added method Lock::isLocked() to determine if any nvs function is running (only available if interrupt locking is disabled)
+- Option to disable interrupt locking (-D NVS_FLASH_NO_INTERRUPT_LOCK=1)
 
 ### 0.0.2
 
