@@ -3,8 +3,8 @@
 */
 
 #include "nvs_common.h"
+#include "esp_partition.h"
 #include <string.h>
-#include <Esp.h>
 
 /*
 
@@ -30,28 +30,20 @@ PROVIDE ( _NVS2_end = 0x405DA000 );
 
 */
 
-#define SECTION_FLASH_START_ADDRESS 0x40200000U
-#define SECTION_NVS_START_ADDRESS   ((uint32_t)&_NVS_start)
-#define SECTION_NVS_END_ADDRESS     ((uint32_t)&_NVS_end)
-#if NVS_PARTITIONS == 2
-#    define SECTION_NVS2_START_ADDRESS ((uint32_t)&_NVS2_start)
-#    define SECTION_NVS2_END_ADDRESS   ((uint32_t)&_NVS2_end)
-#endif
-
 extern "C" uint32_t _NVS_start;
 extern "C" uint32_t _NVS_end;
 #if NVS_PARTITIONS == 2
-extern "C" uint32_t _NVS2_start;
-extern "C" uint32_t _NVS2_end;
+    extern "C" uint32_t _NVS2_start;
+    extern "C" uint32_t _NVS2_end;
 #endif
 
 #define NVS_PART_LABEL_1 "nvs"
 #define NVS_PART_LABEL_2 "nvs2"
 
 static const esp_partition_t nvs_partitions[2] = {
-    { ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_NVS, SECTION_NVS_START_ADDRESS - SECTION_FLASH_START_ADDRESS, (SECTION_NVS_END_ADDRESS - SECTION_NVS_START_ADDRESS), NVS_PART_LABEL_1, false }
+    { ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_NVS, SECTION_START_ADDR(NVS), SECTION_CALC_SIZE(NVS), NVS_PART_LABEL_1, false }
     #if NVS_PARTITIONS == 2
-        , { ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_NVS, SECTION_NVS2_START_ADDRESS - SECTION_FLASH_START_ADDRESS, (SECTION_NVS2_END_ADDRESS - SECTION_NVS2_START_ADDRESS), NVS_PART_LABEL_2, false }
+        , { ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_NVS, SECTION_START_ADDR(NVS2), SECTION_CALC_SIZE(NVS2), NVS_PART_LABEL_2, false }
     #endif
 };
 
