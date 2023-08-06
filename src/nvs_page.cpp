@@ -1048,6 +1048,8 @@ esp_err_t Page::calcEntries(nvs_stats_t &nvsStats)
 {
     assert(mState != PageState::FREEING);
 
+    nvsStats.max_seq_number = std::max(nvsStats.max_seq_number, mSeqNumber);
+
     nvsStats.total_entries += ENTRY_COUNT;
 
     switch (mState) {

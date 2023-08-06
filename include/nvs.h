@@ -531,6 +531,8 @@ typedef struct {
     size_t free_entries;      /**< Amount of free entries. */
     size_t total_entries;     /**< Amount all available entries. */
     size_t namespace_count;   /**< Amount name space. */
+    size_t max_seq_number;    /**< Max sequence number. */
+    size_t sectors;           /**< Number of sectors. */
 } nvs_stats_t;
 
 /**

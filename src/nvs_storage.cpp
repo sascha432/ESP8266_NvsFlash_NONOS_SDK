@@ -702,6 +702,7 @@ void Storage::debugCheck()
 esp_err_t Storage::fillStats(nvs_stats_t& nvsStats)
 {
     nvsStats.namespace_count = mNamespaces.size();
+    nvsStats.sectors = mPageManager.getPageCount();
     return mPageManager.fillStats(nvsStats);
 }
 

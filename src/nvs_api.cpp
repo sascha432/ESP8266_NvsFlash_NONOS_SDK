@@ -504,10 +504,7 @@ extern "C" esp_err_t nvs_get_stats(const char* part_name, nvs_stats_t* nvs_stats
     if (nvs_stats == nullptr) {
         return ESP_ERR_INVALID_ARG;
     }
-    nvs_stats->used_entries     = 0;
-    nvs_stats->free_entries     = 0;
-    nvs_stats->total_entries    = 0;
-    nvs_stats->namespace_count  = 0;
+    *nvs_stats = {};
 
     pStorage = lookup_storage_from_name((part_name == nullptr) ? NVS_DEFAULT_PART_NAME : part_name);
     if (pStorage == nullptr) {
