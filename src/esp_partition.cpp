@@ -30,11 +30,9 @@ PROVIDE ( _NVS2_end = 0x405DA000 );
 
 */
 
-extern "C" uint32_t _NVS_start;
-extern "C" uint32_t _NVS_end;
+SECTION_EXTERN_UINT32(NVS);
 #if NVS_PARTITIONS == 2
-    extern "C" uint32_t _NVS2_start;
-    extern "C" uint32_t _NVS2_end;
+    SECTION_EXTERN_UINT32(NVS2)
 #endif
 
 #define NVS_PART_LABEL_1 "nvs"
