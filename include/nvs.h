@@ -671,6 +671,15 @@ void nvs_entry_info(nvs_iterator_t iterator, nvs_entry_info_t *out_info);
 void nvs_release_iterator(nvs_iterator_t iterator);
 
 
+/**
+ * @brief       Dump storage debug info
+ *
+ * @param[in]   part_name   Partition name NVS in the partition table.
+ *                          NVS_DEFAULT_PART_NAME for the default one
+ *
+ */
+void nvs_dump(const char *part_name);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

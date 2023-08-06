@@ -15,6 +15,15 @@
 #include <cstdio>
 #include <cstring>
 
+#ifdef ARDUINO_ARCH_ESP8266
+#include <HardwareSerial.h>
+extern "C" void optimistic_yield(uint32_t interval_us);
+#define printf(fmt, ...) \
+    Serial.printf_P(PSTR(fmt),##__VA_ARGS__); \
+    Serial.flush(); \
+    optimistic_yield(1000);
+#endif
+
 namespace nvs
 {
 
@@ -1020,6 +1029,7 @@ void Page::debugDump() const
             Item item;
             readEntry(i, item);
             if (skip == 0) {
+                item.key[sizeof(item.key) - 1] = 0;
                 printf("W ns=%2u type=%2u span=%3u key=\"%s\" chunkIdx=%d len=%d\n", item.nsIndex, static_cast<unsigned>(item.datatype), item.span, item.key, item.chunkIndex, (item.span != 1)?((int)item.varLength.dataSize):-1);
                 if (item.span > 0 && item.span <= ENTRY_COUNT - i) {
                     skip = item.span - 1;
