@@ -6,8 +6,10 @@
 
 #include <Esp.h>
 
-#define SECTION_FLASH_START_ADDRESS 0x40200000U
-#define SECTION_FLASH_END_ADDRESS   0x40300000U // 1MB, 256 sectors or 1048576 byte are addressable
-#define SECTION_CALC_SIZE(name)     ((((uint32_t)&_##name##_end) - ((uint32_t)&_##name##_start)) + FLASH_SECTOR_SIZE)
-#define SECTION_START_ADDR(name)    (((uint32_t)&_##name##_start) - SECTION_FLASH_START_ADDRESS)
-#define SECTION_EXTERN_UINT32(name) extern "C" uint32_t _##name##_start; extern "C" uint32_t _##name##_end;
+#define SECTION_FLASH_START_ADDRESS     0x40200000U
+#define SECTION_FLASH_END_ADDRESS       0x40300000U // 1MB, 256 sectors or 1048576 byte are addressable
+#define SECTION_FLASH_START_ADDR(name)  ((uint32_t)&_##name##_start)
+#define SECTION_FLASH_END_ADDR(name)    ((uint32_t)&_##name##_end)
+#define SECTION_CALC_SIZE(name)         ((((uint32_t)&_##name##_end) - ((uint32_t)&_##name##_start)) + FLASH_SECTOR_SIZE)
+#define SECTION_START_ADDR(name)        (((uint32_t)&_##name##_start) - SECTION_FLASH_START_ADDRESS)
+#define SECTION_EXTERN_UINT32(name)     extern "C" uint32_t _##name##_start; extern "C" uint32_t _##name##_end;
