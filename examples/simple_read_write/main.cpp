@@ -36,7 +36,7 @@ static void halt()
 
 static void print_free_heap()
 {
-    Serial.printf_P(PSTR("free heap %u\n"), ESP.getFreeHeap());    
+    Serial.printf_P(PSTR("free heap %u\n"), ESP.getFreeHeap());
 }
 
 void setup()
@@ -74,7 +74,7 @@ void setup()
         "namespace count %d\n"
         "partition       %s\n"
         "size            %u\n"
-    ), 
+    ),
         stats.used_entries, stats.free_entries, stats.total_entries, stats.namespace_count,
         part->label, part->size
     );
